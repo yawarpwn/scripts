@@ -8,6 +8,13 @@ GTKTHEME="Adwaita-dark"
 ICONTHEME="Breeze-Dark"
 FONT="Roboto"
 
+function set_wallpaper() {
+  local fehbg_conf="${DIR}/dotfiles/.fehbg"
+  local wallpaper="${DIR}/dotfiles/wallpaper.jpg"
+  cp -f "${wallpaper}" "$HOME/"
+  copy_config_file "${fehbg_conf}" "${HOME}/.fehbg"
+}
+
 function install_theme_deps_gtk {
   local npmrc="${DIR}/dotfiles/npmrc"
   local themes="${DIR}/packages/themes.list"
@@ -149,8 +156,8 @@ function set_config_files() {
   fi
 
   show_info "Coping config file"
-  copy_config_file "${openbox_conf}" "${HOME}/.config/"
-  copy_config_file "${kittyconf}" "${HOME}/.config/"
+  cp -r "${openbox_conf}" "${HOME}/.config/"
+  cp -r "${kittyconf}" "${HOME}/.config/"
 
   show_success "openbox installed successfuly"
 }
@@ -159,5 +166,8 @@ install_network
 install_deps
 install_aur_deps
 install_fonts
+install_bluetooth
+install_fonts
 set_config_files
 set_zsh_shell
+set_wallpaper

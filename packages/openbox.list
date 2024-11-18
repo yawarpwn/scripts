@@ -29,12 +29,9 @@ rofi
 rofi-calc
 lightdm-gtk-greeter
 lightdm
-noto-fonts
-ttf-roboto
-ttf-hack-nerd
-ttf-nerd-fonts-symbols
 zsh
 zsh-autosuggestions
 zsh-completions
 zsh-history-substring-search
 zsh-syntax-highlighting
+feh
