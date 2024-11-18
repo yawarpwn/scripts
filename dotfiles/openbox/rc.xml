@@ -91,10 +91,10 @@
   </resize>
   <!-- Margin -->
   <margins>
-    <top>48</top>
-    <bottom>10</bottom>
-    <left>10</left>
-    <right>10</right>
+    <top>35</top>
+    <bottom>15</bottom>
+    <left>5</left>
+    <right>5</right>
   </margins>
   <!-- Dock -->
   <dock>
@@ -171,18 +171,6 @@
       </action>
     </keybind>
     <!-- Action : GoToDesktop -->
-    <keybind key="C-A-Right">
-      <action name="GoToDesktop">
-        <to>next</to>
-        <wrap>yes</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Left">
-      <action name="GoToDesktop">
-        <to>previous</to>
-        <wrap>yes</wrap>
-      </action>
-    </keybind>
     <keybind key="W-1">
       <action name="GoToDesktop">
         <to>1</to>
@@ -208,23 +196,6 @@
         <to>5</to>
       </action>
     </keybind>
-    <!-- Action : Add/Remove Desktop -->
-    <keybind key="W-equal">
-      <action name="AddDesktop">
-        <where>last</where>
-      </action>
-      <action name="Execute">
-        <command>dunstify -u low -h string:x-dunst-stack-tag:obaction "Added New Desktop"</command>
-      </action>
-    </keybind>
-    <keybind key="W-minus">
-      <action name="RemoveDesktop">
-        <where>last</where>
-      </action>
-      <action name="Execute">
-        <command>dunstify -u low -h string:x-dunst-stack-tag:obaction "Removed Last Desktop"</command>
-      </action>
-    </keybind>
     <!-- Action : ToggleShowDesktop -->
     <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
@@ -246,20 +217,6 @@
     </keybind>
     <!-- ######## Window Actions ######## -->
     <!-- Action : SendToDesktop -->
-    <keybind key="W-S-Right">
-      <action name="SendToDesktop">
-        <to>next</to>
-        <wrap>yes</wrap>
-        <follow>yes</follow>
-      </action>
-    </keybind>
-    <keybind key="W-S-Left">
-      <action name="SendToDesktop">
-        <to>previous</to>
-        <wrap>yes</wrap>
-        <follow>yes</follow>
-      </action>
-    </keybind>
     <keybind key="S-W-1">
       <action name="SendToDesktop">
         <desktop>1</desktop>
@@ -302,33 +259,6 @@
       <action name="MoveRelative">
         <x>-20</x>
         <y>0</y>
-      </action>
-    </keybind>
-    <keybind key="W-A-Right">
-      <action name="MoveRelative">
-        <x>20</x>
-        <y>0</y>
-      </action>
-    </keybind>
-    <!-- Action : ResizeRelative -->
-    <keybind key="W-C-Right">
-      <action name="ResizeRelative">
-        <right>20</right>
-      </action>
-    </keybind>
-    <keybind key="W-C-Left">
-      <action name="ResizeRelative">
-        <right>-20</right>
-      </action>
-    </keybind>
-    <keybind key="W-C-Down">
-      <action name="ResizeRelative">
-        <bottom>20</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-C-Up">
-      <action name="ResizeRelative">
-        <bottom>-20</bottom>
       </action>
     </keybind>
     <!-- Action: Interactive Move/Resize -->
@@ -589,27 +519,7 @@
     <!-- Screenshot Keys -->
     <keybind key="Print">
       <action name="Execute">
-        <command>ob-screenshot --now</command>
-      </action>
-    </keybind>
-    <keybind key="A-Print">
-      <action name="Execute">
-        <command>ob-screenshot --in5</command>
-      </action>
-    </keybind>
-    <keybind key="S-Print">
-      <action name="Execute">
-        <command>ob-screenshot --in10</command>
-      </action>
-    </keybind>
-    <keybind key="C-Print">
-      <action name="Execute">
-        <command>ob-screenshot --win</command>
-      </action>
-    </keybind>
-    <keybind key="W-Print">
-      <action name="Execute">
-        <command>ob-screenshot --area</command>
+        <command>flameshot gui</command>
       </action>
     </keybind>
     <!-- Brightness Control -->
@@ -675,7 +585,7 @@
     <!-- Calc -->
     <keybind key="W-i">
       <action name="Execute">
-        <command>rofi -show calc -modi calc -no-show-match -no-sort</command>
+        <command>rofi -show calc -modi calc -no-show-match -no-sort -theme ~/.config/openbox/rofi/calc.rasi</command>
       </action>
     </keybind>
     <!-- <keybind key="W-f"> -->
@@ -701,7 +611,7 @@
     <!-- Rofi -->
     <keybind key="A-F1">
       <action name="Execute">
-        <command>rofi -show drun</command>
+        <command>rofi -show drun -theme ~/.config/openbox/rofi/launcher.rasi</command>
       </action>
     </keybind>
     <keybind key="W-n">
@@ -740,19 +650,9 @@
         <command>xfce4-terminal</command>
       </action>
     </keybind>
-    <keybind key="C-A-v">
-      <action name="Execute">
-        <command>alacritty -e vim</command>
-      </action>
-    </keybind>
     <keybind key="C-A-r">
       <action name="Execute">
-        <command>alacritty -e ranger</command>
-      </action>
-    </keybind>
-    <keybind key="C-A-h">
-      <action name="Execute">
-        <command>alacritty -e htop</command>
+        <command>kitty -e ranger</command>
       </action>
     </keybind>
     <!-- Misc -->

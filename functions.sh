@@ -4,39 +4,9 @@ DIR="$(dirname "$0")"
 ##
 . "$DIR"/utils.sh
 
-function install_debian_packages {
-  local package
-  local to_install=()
-
-  # Leer cada línea del archivo proporcionado como argumento
-  while read -r package; do
-    # Ignorar líneas vacías
-    [ -z "${package}" ] && continue
-
-    # Comprobar si el paquete está instalado utilizando dpkg
-    if dpkg -l | grep -q "^ii\s*${package}"; then
-      # Si el paquete está instalado, mostrar un mensaje y omitirlo
-      show_listitem "${package@Q} package already installed. Skipping."
-
-      # Si el paquete no está instalado, se añade a la lista de instalación
-    else
-      to_install+=("${package}")
-    fi
-  done <"${1}" # Leer desde el archivo cuyo nombre se pasa como argumento
-
-  # Comprobar si hay paquetes que necesitan ser instalados
-  if [[ ${#to_install[@]} -gt 0 ]]; then
-    # Actualizar la lista de paquetes disponibles desde los repositorios
-    sudo apt update
-
-    # Instalar los paquetes que no están instalados, sin pedir confirmación
-    sudo apt install -y "${to_install[@]}"
-  fi
-}
-
 function set_zsh_shell {
-  local zshrc="${DIR}/dotfiles/zshrc"
-  local p10krc="${DIR}/dotfiles/p10k"
+  local zshrc="${DIR}/dotfiles/.zshrc"
+  local p10krc="${DIR}/dotfiles/.p10k.zsh"
 
   if ! command -v zsh >/dev/null 2>&1; then
     show_warning "Zsh not installed. Skipping."
@@ -193,9 +163,9 @@ function install_deps() {
 }
 
 function install_aur_deps() {
-  local dev_aur_list="$DIR/packages/dev-aur.list"
+  local aur_deps_list="$DIR/packages/aur-deps.list"
   show_header "Installing AUR dependencies."
-  check_aur_installed "${dev_aur_list}"
+  check_aur_installed "${aur_deps_list}"
   show_success "AUR dependencies installed."
 }
 

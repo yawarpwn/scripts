@@ -1,5 +1,5 @@
 # source utils
-DIR "$0"
+DIR="$(dirname "$0")"
 . "$DIR/functions.sh"
 . "$DIR/utils.sh"
 
@@ -104,22 +104,60 @@ function install_ligthdm() {
   fi
 }
 
-function install_openbox() {
-  local openbox_list="$DIR/packages/openbox.list"
+function install_aur_helper() {
+  local temp_dir="$(mktemp -d)"
+  pushd "${temp_dir}" >/dev/null || exit
+  git clone https://aur.archlinux.org/paru.git
+  cd paru || exit
+  makepkg -sirc --noconfirm
+  popd >/dev/null || exit
+  rm -rf "${temp_dir}"
+}
 
+function install_deps {
+  local openbox_list="$DIR/packages/openbox.list"
   show_header "Installing Openbox dependencies"
   check_installed "${openbox_list}"
-  show_success "installed opebox dependices"
+  show_success "installed openbox dependices"
+}
+
+function set_config_files() {
+  local openbox_conf="$DIR/dotfiles/openbox"
+  local kittyconf="$DIR/dotfiles/kitty"
 
   if ! test ${DESKTOP_SESSION+x}; then
     export DESKTOP_SESSION="openbox"
   fi
 
-  install_fonts
-  install_theme_deps_gtk
-  set_dark_gtk
-  install_ligthdm
-  set_lightdm_theme
+  show_info "Setting up LightDM greeter."
+  sudo sed -i \
+    "s/^#greeter-hide-users=false/greeter-hide-users=false/g" \
+    "${lightdmconf}"
+  sudo sed -i \
+    "s/^#greeter-session=.*/greeter-session=lightdm-gtk-greeter/g" \
+    "${lightdmconf}"
+
+  if [ -f /etc/systemd/system/display-manager.service ]; then
+    if [[ "$(systemctl is-active lightdm)" = inactive ]]; then
+      local display_manager
+      display_manager="$(readlink -f /etc/systemd/system/display-manager.service)"
+      display_manager="${display_manager##*/}"
+      show_warning "Display manager already set to ${display_manager@Q}. Skipping LightDM."
+    fi
+  else
+    sudo systemctl enable lightdm.service
+  fi
+
+  show_info "Coping config file"
+  copy_config_file "${openbox_conf}" "${HOME}/.config/"
+  copy_config_file "${kittyconf}" "${HOME}/.config/"
 
   show_success "openbox installed successfuly"
 }
+
+install_network
+install_deps
+install_aur_deps
+install_fonts
+set_config_files
+set_zsh_shell

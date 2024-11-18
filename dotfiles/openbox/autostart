@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 
-## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
+OPENDIR="$HOME/.config/openbox"
+BSPDIR="$HOME/.config/bspwm"
+
+#export scripts/bin  dir to PATH
+export PATH="${PATH}:$BSPDIR/scripts"
 
 ## Kill if already running
-killall -9 xfsettingsd picom polybar mpd dunst ksuperkey xfce4-power-manager
+killall -9 xsettingsd picom mpd dunst ksuperkey xfce4-power-manager nm-applet blueman-applet pasystray
 
 ## Restore Wallpaper
-nitrogen --restore
+# nitrogen --restore
+bash ~/.fehbg &
 
 ## xfce4-settings daemon
-xfsettingsd &
+xsettingsd --config="$OPENDIR/xsettingsd" &
 
 ## polkit agent
 if [[ ! $(pidof xfce-polkit) ]]; then
@@ -19,14 +24,24 @@ fi
 ## Enable power management
 xfce4-power-manager &
 
+# Enable network
+nm-applet &
+
+# Enable bluetooth
+blueman-applet &
+
+# Enable volumen
+pasystray &
+
 ## Start Compositing Manager
-exec picom &
+exec picom --config "$OPENDIR/picom.conf" &
 
 ## Launch polybar
-polybar &
+bash "$OPENDIR/polybar/launch.sh"
 
 ## Notification Daemon
-exec dunst &
+# exec dunst &
+exec dunst --config "$OPENDIR/dunstrc" &
 
 ## Start Music Player Daemon
 # exec mpd &
