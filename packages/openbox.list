@@ -27,6 +27,8 @@ lxappearance
 xsettingsd
 rofi
 rofi-calc
+polybar
+kitty
 lightdm-gtk-greeter
 lightdm
 zsh

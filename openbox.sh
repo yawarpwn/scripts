@@ -8,25 +8,32 @@ GTKTHEME="Adwaita-dark"
 ICONTHEME="Breeze-Dark"
 FONT="Roboto"
 
-function set_wallpaper() {
+function set_theme() {
   local fehbg_conf="${DIR}/dotfiles/.fehbg"
   local wallpaper="${DIR}/dotfiles/wallpaper.jpg"
-  cp -f "${wallpaper}" "$HOME/"
+  local avatar="${DIR}/dotfiles/avatar.png"
+  local gtk_greeter_conf="/etc/lightdm/lightdm-gtk-greeter.conf"
+
+  sudo mkdir -p /usr/share/backgrounds/
+  sudo mkdir -p /usr/share/avatars/
+
+  cp -f "${wallpaper}" /usr/share/backgrounds/
+  cp -f "${avatar}" /usr/share/avatars/
+
+  sudo sed -i \
+    "s/^#theme-name=.*/theme-name=Adwaita-dark/g" \
+    "${gtk_greeter_conf}"
+  sudo sed -i \
+    "s/^#icon-theme-name=.*/icon-theme-name=Papirus-Dark/g" \
+    "${gtk_greeter_conf}"
+  sudo sed -i \
+    "s/^#\s*default-user-image =.*/default-user-image = \/usr\/share\/avatars\/joker-avatar.png/g" \
+    "${gtk_greeter_conf}"
+  sudo sed -i \
+    "s/^#\s*background =.*/background = \/usr\/share\/backgrounds\/wallpaper.jpg/g" \
+    "${gtk_greeter_conf}"
+
   copy_config_file "${fehbg_conf}" "${HOME}/.fehbg"
-}
-
-function install_theme_deps_gtk {
-  local npmrc="${DIR}/dotfiles/npmrc"
-  local themes="${DIR}/packages/themes.list"
-
-  show_header "Installing theme dependencies."
-  check_installed "${themes}"
-  show_success "Theme dependencies installed."
-
-  if ! [ -f "${npmrc}" ]; then
-    show_info "Installing npmrc."
-    cp -f "${npmrc}" "${HOME}/.npmrc"
-  fi
 }
 
 function set_dark_gtk {
@@ -170,4 +177,4 @@ install_bluetooth
 install_fonts
 set_config_files
 set_zsh_shell
-set_wallpaper
+set_theme
