@@ -12,26 +12,45 @@ function set_theme() {
   local fehbg_conf="${DIR}/dotfiles/.fehbg"
   local wallpaper="${DIR}/dotfiles/wallpaper.jpg"
   local avatar="${DIR}/dotfiles/avatar.png"
-  local gtk_greeter_conf="/etc/lightdm/lightdm-gtk-greeter.conf"
+  local lightdmconf="/etc/lightdm/lightdm-gtk-greeter.conf"
 
   sudo mkdir -p /usr/share/backgrounds/
   sudo mkdir -p /usr/share/avatars/
 
-  cp -f "${wallpaper}" /usr/share/backgrounds/
-  cp -f "${avatar}" /usr/share/avatars/
+  sudo cp -f "${wallpaper}" /usr/share/backgrounds/
+  sudo cp -f "${avatar}" /usr/share/avatars/
+
+  show_info "Setting up LightDM greeter."
+  sudo sed -i \
+    "s/^#greeter-hide-users=false/greeter-hide-users=false/g" \
+    "${lightdmconf}"
+  sudo sed -i \
+    "s/^#greeter-session=.*/greeter-session=lightdm-gtk-greeter/g" \
+    "${lightdmconf}"
+
+  if [ -f /etc/systemd/system/display-manager.service ]; then
+    if [[ "$(systemctl is-active lightdm)" = inactive ]]; then
+      local display_manager
+      display_manager="$(readlink -f /etc/systemd/system/display-manager.service)"
+      display_manager="${display_manager##*/}"
+      show_warning "Display manager already set to ${display_manager@Q}. Skipping LightDM."
+    fi
+  else
+    sudo systemctl enable lightdm.service
+  fi
 
   sudo sed -i \
     "s/^#theme-name=.*/theme-name=Adwaita-dark/g" \
-    "${gtk_greeter_conf}"
+    "${lightdmconf}"
   sudo sed -i \
     "s/^#icon-theme-name=.*/icon-theme-name=Papirus-Dark/g" \
-    "${gtk_greeter_conf}"
+    "${lightdmconf}"
   sudo sed -i \
-    "s/^#\s*default-user-image =.*/default-user-image = \/usr\/share\/avatars\/joker-avatar.png/g" \
-    "${gtk_greeter_conf}"
+    "s/^#\s*default-user-image =.*/default-user-image = \/usr\/share\/avatars\/avatar.png/g" \
+    "${lightdmconf}"
   sudo sed -i \
     "s/^#\s*background =.*/background = \/usr\/share\/backgrounds\/wallpaper.jpg/g" \
-    "${gtk_greeter_conf}"
+    "${lightdmconf}"
 
   copy_config_file "${fehbg_conf}" "${HOME}/.fehbg"
 }
@@ -143,38 +162,18 @@ function set_config_files() {
     export DESKTOP_SESSION="openbox"
   fi
 
-  show_info "Setting up LightDM greeter."
-  sudo sed -i \
-    "s/^#greeter-hide-users=false/greeter-hide-users=false/g" \
-    "${lightdmconf}"
-  sudo sed -i \
-    "s/^#greeter-session=.*/greeter-session=lightdm-gtk-greeter/g" \
-    "${lightdmconf}"
-
-  if [ -f /etc/systemd/system/display-manager.service ]; then
-    if [[ "$(systemctl is-active lightdm)" = inactive ]]; then
-      local display_manager
-      display_manager="$(readlink -f /etc/systemd/system/display-manager.service)"
-      display_manager="${display_manager##*/}"
-      show_warning "Display manager already set to ${display_manager@Q}. Skipping LightDM."
-    fi
-  else
-    sudo systemctl enable lightdm.service
-  fi
-
   show_info "Coping config file"
   cp -r "${openbox_conf}" "${HOME}/.config/"
   cp -r "${kittyconf}" "${HOME}/.config/"
+  copy_files "${DIR}/dotfiles/.bashrc" "${HOME}/"
 
   show_success "openbox installed successfuly"
 }
 
-install_network
 install_deps
 install_aur_deps
 install_fonts
 install_bluetooth
 install_fonts
 set_config_files
-set_zsh_shell
 set_theme

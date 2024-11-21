@@ -1,6 +1,8 @@
 # steps for enable AltGr with dead keys
 sudo pacman -S xorg-setxkbmap
 
+# setxkbmap -layout us,us_intl -variant altgr-intl, -option grp:alt_shift_toggle
+
 # temporal change
 setxkbmap -layout us -variant altgr-intl
 

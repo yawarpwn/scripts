@@ -1,0 +1,136 @@
+#
+##---------- aplicaciones ----------##
+
+# terminal 
+super + Return
+  kitty	
+
+alt + F1
+  rofi_launcher 
+
+#Rofi calc
+super + i
+  rofi -show calc -theme /home/johneyder/.config/bspwm/rofi/calc.rasi
+
+#app
+super + {w,e}
+  {firefox, thunar}
+
+super + {x, s}
+  {rofi_powermenu, rofi_screenshot}
+
+#Color picker
+super + p
+  bspcolorpicker
+
+# Lockscreen
+  ctrl + alt + l
+  betterlockscreen --lock
+
+# app terminal
+ctrl + alt + {r}
+  kitty { ranger}
+
+##---------- System Keys ----------##
+
+# Take a screenshot
+Print
+	bspscreenshot --now
+	
+# Take screenshot in 5 second
+alt + Print	
+	bspscreenshot --in5
+
+# Take screenshot in 10 second
+shift + Print	
+	bspscreenshot --in10
+
+# Take screenshot of active window
+ctrl + Print
+	bspscreenshot --win
+
+# Take screenshot of area
+super + Print
+	bspscreenshot --area
+
+# Brighness control
+XF86MonBrightness{Up,Down}
+	bspbrightness{ --inc, --dec}
+
+# Speaker Volume control
+XF86Audio{RaiseVolume,LowerVolume}
+	bspvolume{ --inc, --dec}
+
+#
+##---------- Bspwm ----------##
+#
+
+# hacer que sxhkd recargue sus archivos de configuración:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# Quit/Restart bspwm
+ctrl + shift + {q,r}
+	bspc {quit,wm -r}
+
+# kill window
+ctrl + alt + Escape
+    xkill
+
+# Cambiar al último espacio de trabajo abierto
+super + {Tab,grave}
+	bspc {node,desktop} -f last
+
+# cerrar y matar
+super + {_,shift + }c
+	bspc node -{c,k}
+
+# alternar entre el diseño en mosaico y el diseño monocle
+super + m
+	bspc desktop -l next
+
+# enviar el nodo marcado más nuevo al nodo preseleccionado más nuevo
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# Toggle Layout (Tiled/Monocle)
+super + m
+	bspc desktop -l next
+
+# Toggle Fullscreen
+super + f
+    bspc node -t "~"fullscreen
+
+# Toggle beetwen floating & tiled
+super + space
+    bspc node -t "~"{floating,tiled}
+
+# Pseudo Tiled & tiled mode
+super + shift + space
+    bspc node -t "~"{pseudo_tiled,tiled}
+
+#
+## enfoque/intercambio
+#
+
+# enfocar el nodo en la dirección dada
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# enfocar el último nodo/escritorio
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# enfocar el nodo más antiguo o más nuevo en el historial de enfoque
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# enfocar o enviar al escritorio dado
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# Set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
