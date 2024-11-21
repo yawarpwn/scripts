@@ -5,13 +5,14 @@ DIR="$(dirname "$0")"
 
 # Globals
 GTKTHEME="Adwaita-dark"
-ICONTHEME="Breeze-Dark"
+ICONTHEME="Papirus-Dark"
 FONT="Roboto"
 
 function set_theme() {
   local fehbg_conf="${DIR}/dotfiles/.fehbg"
   local wallpaper="${DIR}/dotfiles/wallpaper.jpg"
   local avatar="${DIR}/dotfiles/avatar.png"
+  local lightdm_gtk_conf="${DIR}/dotfiles/lightdm-gtk-greeter.conf"
   local lightdmconf="/etc/lightdm/lightdm-gtk-greeter.conf"
 
   sudo mkdir -p /usr/share/backgrounds/
@@ -21,12 +22,6 @@ function set_theme() {
   sudo cp -f "${avatar}" /usr/share/avatars/
 
   show_info "Setting up LightDM greeter."
-  sudo sed -i \
-    "s/^#greeter-hide-users=false/greeter-hide-users=false/g" \
-    "${lightdmconf}"
-  sudo sed -i \
-    "s/^#greeter-session=.*/greeter-session=lightdm-gtk-greeter/g" \
-    "${lightdmconf}"
 
   if [ -f /etc/systemd/system/display-manager.service ]; then
     if [[ "$(systemctl is-active lightdm)" = inactive ]]; then
@@ -39,20 +34,8 @@ function set_theme() {
     sudo systemctl enable lightdm.service
   fi
 
-  sudo sed -i \
-    "s/^#theme-name=.*/theme-name=Adwaita-dark/g" \
-    "${lightdmconf}"
-  sudo sed -i \
-    "s/^#icon-theme-name=.*/icon-theme-name=Papirus-Dark/g" \
-    "${lightdmconf}"
-  sudo sed -i \
-    "s/^#\s*default-user-image =.*/default-user-image = \/usr\/share\/avatars\/avatar.png/g" \
-    "${lightdmconf}"
-  sudo sed -i \
-    "s/^#\s*background =.*/background = \/usr\/share\/backgrounds\/wallpaper.jpg/g" \
-    "${lightdmconf}"
-
   copy_config_file "${fehbg_conf}" "${HOME}/.fehbg"
+  sudo cp -f "${lightdm_gtk_conf}" "${lightdmconf}"
 }
 
 function set_dark_gtk {

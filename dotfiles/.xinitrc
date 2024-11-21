@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec openbox-session_
+exec openbox-session

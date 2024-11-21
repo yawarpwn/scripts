@@ -31,9 +31,4 @@ polybar
 kitty
 lightdm-gtk-greeter
 lightdm
-zsh
-zsh-autosuggestions
-zsh-completions
-zsh-history-substring-search
-zsh-syntax-highlighting
 feh
