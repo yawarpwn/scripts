@@ -27,33 +27,18 @@ function set_zsh_shell {
 }
 
 function install_zsh {
-  local zsh="${DIR}/packages/zsh.list"
-  local zshrc="${DIR}/dotfiles/zshrc"
-  local p10krc="${DIR}/dotfiles/p10k"
+  local zsh_list="${DIR}/packages/zsh.list"
 
   show_header "Installing Zsh."
-  check_installed "${zsh}"
+  check_installed "${zsh_list}"
   show_success "Zsh installed."
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
 
-  copy_config_file "${zshrc}" "${HOME}/.zshrc"
-  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
-}
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
-function install_zsh_debian {
-  local zsh="${DIR}/packages/zsh.list"
-  local zshrc="$HOME/dot/.zshrc"
-  local p10krc="${DIR}/dotfiles/p10k"
+  set_zsh_shell
 
-  show_header "Installing Zsh."
-  install_debian_packages "${zsh}"
-  show_success "Zsh installed."
-
-  mkdir -p "${HOME}/.local/share/zsh/site-functions"
-
-  copy_config_file "${zshrc}" "${HOME}/.zshrc"
-  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
 }
 
 function install_network {

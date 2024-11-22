@@ -27,6 +27,9 @@ export VISUAL="${EDITOR}"
 # Set environment variables for programming languages
 #
 
+#Bun
+export PATH="${HOME}/.bun/bin:${PATH}"
+
 # fnm
 FNM_PATH="$HOME/.fnm"
 if [ -d "$FNM_PATH" ]; then

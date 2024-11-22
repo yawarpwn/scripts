@@ -14,14 +14,11 @@ function main() {
   local options=(
     "Quit"
     "Essential"
-    "Dev"
-    "Aur"
+    "Openbox"
     "Printer"
-    "Fonts"
-    "Network"
     "Plymouth"
     "Install Zsh"
-    "Openbox")
+  )
 
   select option in "${options[@]}"; do
     case "${option}" in
@@ -38,30 +35,12 @@ function main() {
 
       show_info "Main (Hit ENTER to see options again.)"
       ;;
-    "Dev")
+
+    "Openbox")
       local response
       response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_deps
-      fi
-
-      show_info "Main (Hit ENTER to see options again.)"
-      ;;
-    "Aur")
-      local response
-      response=$(ask_question "Are you sure? (y/N)")
-      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_aur_deps
-      fi
-
-      show_info "Main (Hit ENTER to see options again.)"
-      ;;
-
-    "Fonts")
-      local response
-      response=$(ask_question "Are you sure? (y/N)")
-      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_fonts
+        install_openbox
       fi
 
       show_info "Main (Hit ENTER to see options again.)"
@@ -71,16 +50,6 @@ function main() {
       response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_printer
-      fi
-
-      show_info "Main (Hit ENTER to see options again.)"
-      ;;
-
-    "Network")
-      local response
-      response=$(ask_question "Are you sure? (y/N)")
-      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_network
       fi
 
       show_info "Main (Hit ENTER to see options again.)"
@@ -104,10 +73,6 @@ function main() {
       fi
 
       show_info "Main (Hit ENTER to see options again.)"
-      ;;
-
-    "Openbox")
-      install_openbox
       ;;
     *)
       show_warning "Invalid option."

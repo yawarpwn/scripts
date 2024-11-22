@@ -120,20 +120,10 @@ function install_ligthdm() {
   fi
 }
 
-function install_aur_helper() {
-  local temp_dir="$(mktemp -d)"
-  pushd "${temp_dir}" >/dev/null || exit
-  git clone https://aur.archlinux.org/paru.git
-  cd paru || exit
-  makepkg -sirc --noconfirm
-  popd >/dev/null || exit
-  rm -rf "${temp_dir}"
-}
-
-function install_deps {
-  local openbox_list="$DIR/packages/openbox.list"
+function install_openbox_deps {
+  local openbox_deps="$DIR/packages/openbox.list"
   show_header "Installing Openbox dependencies"
-  check_installed "${openbox_list}"
+  check_installed "${openbox_deps}"
   show_success "installed openbox dependices"
 }
 
@@ -153,10 +143,12 @@ function set_config_files() {
   show_success "openbox installed successfuly"
 }
 
-install_deps
-install_aur_deps
-install_fonts
-install_bluetooth
-install_fonts
-set_config_files
-set_theme
+function install_openbox() {
+  install_openbox_deps
+  install_aur_deps
+  install_fonts
+  install_bluetooth
+  install_fonts
+  set_config_files
+  set_theme
+}
