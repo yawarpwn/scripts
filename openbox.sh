@@ -127,6 +127,20 @@ function install_openbox_deps {
   show_success "installed openbox dependices"
 }
 
+function set_keyboard() {
+  local sypaptics_conf="${DIR}/dotfiles/70-synaptics.conf"
+  local keyboard_conf="${DIR}/dotfiles/00-keyboard.conf"
+
+  sudo pacman -S xorg-setxkbmap
+
+  # setxkbmap -layout us -variant altgr-intl, -option grp:win_space_toggle
+
+  show_header "Setting Keyboard"
+  sudo cp -f "${sypaptics_conf}" "/etc/X11/xorg.conf.d/70-synaptics.conf"
+  sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
+
+}
+
 function set_config_files() {
   local openbox_conf="$DIR/dotfiles/openbox"
   local kittyconf="$DIR/dotfiles/kitty"
@@ -150,5 +164,6 @@ function install_openbox() {
   install_bluetooth
   install_fonts
   set_config_files
+  set_keyboard
   set_theme
 }

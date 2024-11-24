@@ -115,11 +115,11 @@
     <chainQuitKey>C-g</chainQuitKey>
     <!-- ######## Global Actions ######## -->
     <!-- Action : ShowMenu -->
-    <keybind key="W-space">
-      <action name="ShowMenu">
-        <menu>root-menu</menu>
-      </action>
-    </keybind>
+    <!-- <keybind key="W-space"> -->
+    <!--   <action name="ShowMenu"> -->
+    <!--     <menu>root-menu</menu> -->
+    <!--   </action> -->
+    <!-- </keybind> -->
     <keybind key="A-space">
       <action name="ShowMenu">
         <menu>client-menu</menu>
