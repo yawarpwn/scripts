@@ -13,7 +13,7 @@ function main() {
   show_info "Main (Hit ENTER to see options again.)"
   local options=(
     "Quit"
-    "Essential"
+    "Dev Dependencies"
     "Openbox"
     "Printer"
     "Plymouth"
@@ -26,16 +26,10 @@ function main() {
       show_success "I hope this was as fun for you as it was for me."
       break
       ;;
-    "Essential")
-      local response
-      response=$(ask_question "Are you sure? (y/N)")
-      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_essential
-      fi
-
+    "Dev Dependencies")
+      install_developer_deps
       show_info "Main (Hit ENTER to see options again.)"
       ;;
-
     "Openbox")
       local response
       response=$(ask_question "Are you sure? (y/N)")

@@ -41,6 +41,60 @@ function install_zsh {
 
 }
 
+function install_lazyvim {
+  if [ $EUID -ne 0 ]; then
+    local lazyvim="${DIR}/packages/lazyvim.list"
+    local lazygit="${DIR}/configs/lazygit.yml"
+    local nvimspell="${HOME}/.config/nvim/spell"
+
+    show_info "Installing LazyVim dependencies."
+    check_installed "${lazyvim}"
+    show_success "LazyVim dependencies installed."
+
+    copy_config_file "${lazygit}" "${HOME}/.config/lazygit/config.yml"
+
+    show_info "Installing LazyVim configuration files for Neovim."
+    if [ -d "${HOME}/.config/nvim" ]; then
+      if [ -d "${HOME}/.config/nvim/.git" ] &&
+        git -C "${HOME}/.config/nvim" remote show origin -n |
+        grep -q "LazyVim/starter"; then
+        show_info "LazyVim config already installed."
+        git -C "${HOME}/.config/nvim" pull
+        show_success "Existing LazyVim updated."
+      else
+        show_info "Backing up existing Neovim config directory."
+        mv -v "${HOME}/.config/nvim" "${HOME}/.config/nvim_$(date +%Y%m%d-%k%M%S)"
+        git clone https://github.com/LazyVim/starter "${HOME}/.config/nvim"
+
+        show_success "LazyVim installed."
+      fi
+    else
+      git clone https://github.com/LazyVim/starter "${HOME}/.config/nvim"
+      show_success "LazyVim installed."
+    fi
+
+    show_info "Install local wordlist."
+    mkdir -p "${nvimspell}"
+    local tmpdir
+    tmpdir="$(mktemp -d)"
+    git clone --depth 1 \
+      https://github.com/sudorook/wordlist.vim.git "${tmpdir}"
+    pushd "${tmpdir}" >/dev/null || exit
+    ./build
+    if [ -f "${nvimspell}/en.utf-8.add" ]; then
+      show_info "Wordlist already exists in ${nvimspell@Q}. Appending."
+      ./append
+    else
+      ./install
+    fi
+    popd >/dev/null || exit
+    rm -rf "${tmpdir}"
+    show_success "Wordlist installed in ${nvimspell@Q}."
+  else
+    show_warning "Don't do this as root. Skipping..."
+  fi
+}
+
 function install_network {
   local networking="$DIR/packages/network.list"
   local nmconf="/etc/NetworkManager/NetworkManager.conf"
@@ -240,4 +294,14 @@ function install_plymouth {
   fi
 
   select_plymouth_theme
+}
+
+function install_developer_deps {
+  local dev_list="${DIR}/packages/dev.list"
+
+  show_header "Installing developer dependencies."
+  check_installed "${dev_list}"
+  show_success "Developer dependencies installed."
+
+  install_lazyvim
 }
