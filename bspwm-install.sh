@@ -1,14 +1,12 @@
 #!/bin/bash
 
 DIR="$(dirname "$0")"
+. "$DIR/functions.sh"
+. "$DIR/utils.sh"
 
 function main_run() {
-  local packages=(rofi polybar)
-  local bspwm_files="${DIR}/bspwm"
-  sudo pacman -S --needed --noconfirm "${packages[@]}"
-
-  echo "copy config file"
-  cp -r "${bspwm_files}" "${HOME}/.config/"
+  local bspwm_list="${DIR}/packages/bspwm.list"
+  check_installed "${bspwm_list}"
 
 }
 
