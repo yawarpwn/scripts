@@ -33,12 +33,15 @@ function install_zsh {
   check_installed "${zsh_list}"
   show_success "Zsh installed."
 
-  mkdir -p "${HOME}/.local/share/zsh/site-functions"
-
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+  if [ ! -d "$HOME/powerlevel10k"]; then
+    show_info "Installing powerlevel10k"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+    show_success "powerlevel10k installed successfull"
+  else
+    show_info "powerlevel10k already installed"
+  fi
 
   set_zsh_shell
-
 }
 
 function install_lazyvim {
@@ -201,6 +204,60 @@ function install_deps() {
   show_success "deps dependencies installed."
 }
 
+function install_fnm {
+
+  if [ -f "$HOME/.fnm/fnm" ]; then
+    show_info "fnm is already installed"
+    return
+  fi
+
+  local INSTALL_DIR="$HOME/.fnm"
+  local FILENAME="fnm-linux"
+  local URL="https://github.com/Schniz/fnm/releases/latest/download/$FILENAME.zip"
+  local DOWNLOAD_DIR=$(mktemp -d)
+
+  show_header "Installing fnm"
+  mkdir -p "$INSTALL_DIR" &>/dev/null
+  if ! curl --progress-bar --fail -L "$URL" -o "$DOWNLOAD_DIR/$FILENAME.zip"; then
+    show_warning "Download failed.  Check that the release/filename are correct."
+    exit 1
+  fi
+
+  unzip -q "$DOWNLOAD_DIR/$FILENAME.zip" -d "$DOWNLOAD_DIR"
+
+  if [ -f "$DOWNLOAD_DIR/fnm" ]; then
+    mv "$DOWNLOAD_DIR/fnm" "$INSTALL_DIR/fnm"
+  else
+    mv "$DOWNLOAD_DIR/$FILENAME/fnm" "$INSTALL_DIR/fnm"
+  fi
+
+  chmod u+x "$INSTALL_DIR/fnm"
+  show_success "Fnm installed successfull"
+}
+
+function install_node {
+  if ! command -v node &>/dev/null; then
+    show_header "Installing nodejs lts"
+    "$HOME/.fnm/fnm" install --lts
+    show_success "Nodejs installed successfull"
+  else
+    show_info "Nodejs Lts is alredy installed"
+  fi
+}
+
+function install_bun() {
+  show_header "Installing bun"
+
+  # Install Bun
+  if ! command -v bun >/dev/null; then
+    curl -fsSL https://bun.sh/install | sh
+    show_success "Bun installed successfull"
+  else
+    show_success "bun already installed"
+  fi
+
+}
+
 function install_aur_deps() {
   local aur_deps_list="$DIR/packages/aur-deps.list"
   show_header "Installing AUR dependencies."
@@ -298,10 +355,14 @@ function install_plymouth {
 
 function install_developer_deps {
   local dev_list="${DIR}/packages/dev.list"
-
+  local bashrc="${DIR}/dotfiles/.bashrc"
   show_header "Installing developer dependencies."
   check_installed "${dev_list}"
-  show_success "Developer dependencies installed."
-
+  install_fnm
+  install_node
+  install_bun
+  copy_config_file "${bashrc}" "${HOME}/.bashrc"
+  install_zsh
   install_lazyvim
+  show_success "Developer dependencies installed."
 }

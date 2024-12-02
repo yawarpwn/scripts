@@ -17,7 +17,6 @@ function main() {
     "Openbox"
     "Printer"
     "Plymouth"
-    "Install Zsh"
   )
 
   select option in "${options[@]}"; do
@@ -59,15 +58,6 @@ function main() {
       show_info "Main (Hit ENTER to see options again.)"
       ;;
 
-    "Install Zsh")
-      local response
-      response=$(ask_question "Are you sure? (y/N)")
-      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-        install_zsh
-      fi
-
-      show_info "Main (Hit ENTER to see options again.)"
-      ;;
     *)
       show_warning "Invalid option."
       ;;
