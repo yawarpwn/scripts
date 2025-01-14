@@ -9,8 +9,8 @@ alt + F1
   rofi_launcher
 
 #app
-super + {e}
-  {thunar}
+super + {e, w}
+  {thunar, firefox}
 
 super + {x, s}
   {rofi_powermenu, rofi_screenshot}
@@ -88,7 +88,7 @@ super + Escape
 super + {Tab,grave}
 	bspc {node,desktop} -f last
 
-super + {w} 
+super + shift + w 
   bspc node -s @brother
 
 # alternar entre el diseño en mosaico y el diseño monocle
