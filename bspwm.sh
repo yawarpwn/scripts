@@ -1,18 +1,10 @@
-#Instalar dependencias
-sudo pacman -S bspwm sxhkd
+#!/bin/bash
 
-#Configurar bspwm y sxhkd
-mkdir -p ~/.config/bspwm ~/.config/sxhkd
-cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
-cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
+DIR="$(dirname "$0")"
+. "$DIR/functions.sh"
+. "$DIR/utils.sh"
 
-chmod +x ~/.config/bspwm/bspwmrc
-
-#Configurar LightDM para seleccionar sesiones
-sudo nano /usr/share/xsessions/bspwm.desktop
-
-# [Desktop Entry]
-# Name=BSPWM
-# Comment=Binary Space Partitioning Window Manager
-# Exec=bspwm
-# Type=XSession
+function install_bspwm() {
+  local bspwm_list="${DIR}/packages/bspwm.list"
+  check_installed "${bspwm_list}"
+}
