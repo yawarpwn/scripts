@@ -121,24 +121,9 @@ function install_ligthdm() {
 }
 
 function install_openbox_deps {
-  local openbox_deps="$DIR/packages/openbox.list"
   show_header "Installing Openbox dependencies"
-  check_installed "${openbox_deps}"
+  sudo pacman -S openbox obconf
   show_success "installed openbox dependices"
-}
-
-function set_keyboard() {
-  local sypaptics_conf="${DIR}/dotfiles/70-synaptics.conf"
-  local keyboard_conf="${DIR}/dotfiles/00-keyboard.conf"
-
-  sudo pacman -S xorg-setxkbmap
-
-  # setxkbmap -layout us -variant altgr-intl, -option grp:win_space_toggle
-
-  show_header "Setting Keyboard"
-  sudo cp -f "${sypaptics_conf}" "/etc/X11/xorg.conf.d/70-synaptics.conf"
-  sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
-
 }
 
 function set_config_files() {
@@ -159,10 +144,6 @@ function set_config_files() {
 
 function install_openbox() {
   install_openbox_deps
-  install_aur_deps
-  install_fonts
-  install_bluetooth
   set_config_files
-  set_keyboard
   set_theme
 }

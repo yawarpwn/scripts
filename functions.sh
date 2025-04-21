@@ -4,6 +4,20 @@ DIR="$(dirname "$0")"
 ##
 . "$DIR"/utils.sh
 
+function set_keyboard() {
+  local sypaptics_conf="${DIR}/dotfiles/70-synaptics.conf"
+  local keyboard_conf="${DIR}/dotfiles/00-keyboard.conf"
+
+  sudo pacman -S xorg-setxkbmap
+
+  # setxkbmap -layout us -variant altgr-intl, -option grp:win_space_toggle
+
+  show_header "Setting Keyboard"
+  sudo cp -f "${sypaptics_conf}" "/etc/X11/xorg.conf.d/70-synaptics.conf"
+  sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
+
+}
+
 function set_zsh_shell {
   local zshrc="${DIR}/dotfiles/.zshrc"
   local p10krc="${DIR}/dotfiles/.p10k.zsh"
@@ -180,7 +194,7 @@ function install_essential() {
   show_success "Essential packages installed."
 }
 
-function install_deps() {
+function install_dev_deps() {
   local dev_list="$DIR/packages/dev.list"
   show_header "Installing dependencies."
   check_installed "${dev_list}"

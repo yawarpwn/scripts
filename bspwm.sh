@@ -137,10 +137,8 @@ function set_keyboard() {
 
 function install_bspwm_deps() {
   show_header "Installing necesaries dependencies"
-  local basis_deps="$DIR/packages/basis.list"
-  check_installed "${basis_deps}"
   pacman -S --needed --noconfirm bspwm sxhkd
-  show_success "installed openbox dependices"
+  show_success "installed Bspwm dependices"
 }
 
 function set_config_files() {
@@ -154,16 +152,12 @@ function set_config_files() {
   cp -r "${bspwm_conf}" "${HOME}/.config/"
   copy_files "${DIR}/dotfiles/.bashrc" "${HOME}/"
 
-  show_success "openbox installed successfuly"
+  show_success "Bspwm installed successfuly"
 }
 
 function install_bspwm() {
   install_bspwm_deps
-  install_aur_deps
-  install_fonts
-  install_bluetooth
   set_theme
-  set_keyboard
   set_config_files
   install_ligthdm
   set_dark_gtk

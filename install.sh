@@ -14,9 +14,9 @@ function main() {
   show_info "Main (Hit ENTER to see options again.)"
   local options=(
     "Quit"
-    "Dev Dependencies"
     "Install Bspwm"
     "Install Openbox"
+    "Install Dev Dependencies"
     "Printer"
     "Plymouth"
   )
@@ -26,10 +26,6 @@ function main() {
     "Quit")
       show_success "I hope this was as fun for you as it was for me."
       break
-      ;;
-    "Dev Dependencies")
-      install_developer_deps
-      show_info "Main (Hit ENTER to see options again.)"
       ;;
     "Install Bspwm")
       local response
@@ -47,7 +43,11 @@ function main() {
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_openbox
       fi
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
 
+    "Install Dev Dependencies")
+      install_developer_deps
       show_info "Main (Hit ENTER to see options again.)"
       ;;
     "Printer")
