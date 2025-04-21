@@ -7,6 +7,7 @@ DIR="$(dirname "$0")"
 . "$DIR"/utils.sh
 . "$DIR"/functions.sh
 . "$DIR"/openbox.sh
+. "$DIR"/bspwm.sh
 
 function main() {
   show_question "Select an option:"
@@ -14,7 +15,8 @@ function main() {
   local options=(
     "Quit"
     "Dev Dependencies"
-    "Openbox"
+    "Install Bspwm"
+    "Install Openbox"
     "Printer"
     "Plymouth"
   )
@@ -29,7 +31,17 @@ function main() {
       install_developer_deps
       show_info "Main (Hit ENTER to see options again.)"
       ;;
-    "Openbox")
+    "Install Bspwm")
+      local response
+      response=$(ask_question "Are you sure? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_bspwm
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+
+    "Install Openbox")
       local response
       response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then

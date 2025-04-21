@@ -33,7 +33,7 @@ function install_zsh {
   check_installed "${zsh_list}"
   show_success "Zsh installed."
 
-  if [ ! -d "$HOME/powerlevel10k"]; then
+  if [ ! -d "$HOME/powerlevel10k" ]; then
     show_info "Installing powerlevel10k"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
     show_success "powerlevel10k installed successfull"

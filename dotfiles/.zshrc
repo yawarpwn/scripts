@@ -15,6 +15,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # export BROWSER="firefox"
 if command -v nvim > /dev/null 2>&1; then
   export EDITOR="nvim"
@@ -175,7 +176,8 @@ include() {
 
 # powerlevel10k
 # include /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+include ${HOME}/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 include ${HOME}/.p10k.zsh
 
 # syntax highlighting
@@ -192,3 +194,9 @@ unset -f include
 autoload -U compinit && compinit
 
 
+
+# Turso
+export PATH="$PATH:/home/johneyder/.turso"
+
+# bun completions
+[ -s "/home/johneyder/.bun/_bun" ] && source "/home/johneyder/.bun/_bun"

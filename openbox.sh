@@ -162,7 +162,6 @@ function install_openbox() {
   install_aur_deps
   install_fonts
   install_bluetooth
-  install_fonts
   set_config_files
   set_keyboard
   set_theme

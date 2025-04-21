@@ -1,7 +1,6 @@
-openbox
-obconf
 xorg-server
 xorg-xinit
+xorg-xrandr
 networkmanager
 network-manager-applet
 gnome-keyring
