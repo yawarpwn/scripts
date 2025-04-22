@@ -11,7 +11,6 @@ function main() {
   echo "Installing dependencies..."
   check_installed "${DIR}/packages/essential.list"
   install_fonts
-  install_aur_deps
 }
 
 Check permissions and network. before

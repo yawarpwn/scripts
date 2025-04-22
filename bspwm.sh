@@ -156,6 +156,7 @@ function set_config_files() {
 }
 
 function install_bspwm() {
+  install_aur_deps
   install_bspwm_deps
   set_theme
   set_config_files
