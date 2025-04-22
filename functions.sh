@@ -15,6 +15,7 @@ function set_keyboard() {
   show_header "Setting Keyboard"
   sudo cp -f "${sypaptics_conf}" "/etc/X11/xorg.conf.d/70-synaptics.conf"
   sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
+  sudo cp -f "${DIR}/dotfiles/40-libinput.conf" "/etc/X11/xorg.conf.d/"
 
 }
 
