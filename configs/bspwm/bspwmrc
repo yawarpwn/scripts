@@ -7,10 +7,10 @@ export PATH="${PATH}:$BSPDIR/scripts"
 export XDG_CURRENT_DESKTOP='bspwm'
 
 ## Bspwm colors
-BSPWM_FBC='#81A1C1'
-BSPWM_NBC='#2E3440'
-BSPWM_ABC='#B48EAD'
-BSPWM_PFC='#A3BE8C'
+BSPWM_FBC='#5294E2'
+BSPWM_NBC='#16161e'
+BSPWM_ABC='#C778DD'
+BSPWM_PFC='#98C379'
 
 ## Bspwm appearance
 BSPWM_BORDER='1'
@@ -19,8 +19,9 @@ BSPWM_SRATIO='0.50'
 
 default_workspaces() {
   for monitor in $(xrandr -q | grep -w 'connected' | cut -d' ' -f1); do
-    bspc monitor "$monitor" -d '' '' '' '' '' '' '' '' '󰖣' ''
+    bspc monitor "$monitor" -d '' '' '' '' '' '' '' '' '󰖣' ''
     # bspc monitor "$monitor" -d '' '' '' '' '' '' '' '' '' ''
+    # bspc monitor "$monitor" -d '1' '2' '3' '4' '5' '6' '7' '8' '9' '0'
   done
 }
 
@@ -116,7 +117,7 @@ bspc rule -a stalonetray state=floating manage=off
 ## Autostart -------------------------------------------------#
 
 # Kill if already running
-killall -9 xsettingsd sxhkd dunst ksuperkey xfce4-power-manager bspc polybar nm-applet blueman-applet pasystray
+killall -9 xsettingsd sxhkd dunst ksuperkey xfce4-power-manager bspc polybar nm-applet blueman-applet pasystray bspc
 
 # Lauch xsettingsd daemon
 xsettingsd --config="$BSPDIR"/xsettingsd &

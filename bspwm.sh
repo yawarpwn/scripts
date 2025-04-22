@@ -142,7 +142,7 @@ function install_bspwm_deps() {
 }
 
 function set_config_files() {
-  local bspwm_conf="$DIR/dotfiles/bspwm"
+  local bspwm_conf="$DIR/configs/bspwm"
 
   if ! test ${DESKTOP_SESSION+x}; then
     export DESKTOP_SESSION="bspwm"
