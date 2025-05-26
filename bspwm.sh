@@ -121,17 +121,17 @@ function set_theme() {
   sudo cp -f "${lightdm_gtk_conf}" "${lightdmconf}"
 }
 
-function set_keyboard() {
-  local sypaptics_conf="${DIR}/dotfiles/70-synaptics.conf"
+function set_inputs_conf() {
   local keyboard_conf="${DIR}/dotfiles/00-keyboard.conf"
+  local touchpad_conf="${DIR}/dotfiles/40-libinput.conf"
 
   sudo pacman -S xorg-setxkbmap
 
   # setxkbmap -layout us -variant altgr-intl, -option grp:win_space_toggle
 
   show_header "Setting Keyboard"
-  sudo cp -f "${sypaptics_conf}" "/etc/X11/xorg.conf.d/70-synaptics.conf"
   sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
+  sudo cp -f "${touchpad_conf}" "/etc/X11/xorg.conf.d/40-libinput.conf"
 
 }
 
@@ -162,4 +162,5 @@ function install_bspwm() {
   set_config_files
   install_ligthdm
   set_dark_gtk
+  set_inputs_conf
 }
