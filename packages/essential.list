@@ -51,8 +51,6 @@ xfce4-power-manager
 blueman
 pasystray
 xsettingsd
-pulseaudio
-pavucontrol
 picom
 dunst
 ranger
@@ -71,3 +69,14 @@ lightdm-gtk-greeter
 lightdm
 feh
 unzip
+oniguruma
+jq 
+yazi
+7zip
+poppler
+fd
+ripgrep
+imagemagick
+
+pulseaudio
+pavucontrol

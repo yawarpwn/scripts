@@ -124,12 +124,14 @@ function set_theme() {
 function set_inputs_conf() {
   local keyboard_conf="${DIR}/dotfiles/00-keyboard.conf"
   local touchpad_conf="${DIR}/dotfiles/40-libinput.conf"
+  local xmodmap_conf="${DIR}/dotfiles/.Xmodmap"
 
   sudo pacman -S xorg-setxkbmap
 
   # setxkbmap -layout us -variant altgr-intl, -option grp:win_space_toggle
 
   show_header "Setting Keyboard"
+  cp -f "${xmodmap_conf}" "${HOME}/"
   sudo cp -f "${keyboard_conf}" "/etc/X11/xorg.conf.d/00-keyboard.conf"
   sudo cp -f "${touchpad_conf}" "/etc/X11/xorg.conf.d/40-libinput.conf"
 
@@ -153,6 +155,11 @@ function set_config_files() {
   copy_files "${DIR}/dotfiles/.bashrc" "${HOME}/"
 
   show_success "Bspwm installed successfuly"
+}
+
+function install_aur_deps() {
+  local aur_deps="${DIR}/packages/aur-deps.list"
+  check_aur_installed "${aur_deps}"
 }
 
 function install_bspwm() {
