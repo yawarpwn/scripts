@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
+##
+## Set Wallpaper in Hyprland
+
+WALLPAPER="$HOME/.config/hypr/wallpapers/toyota-gr-supra-3840x2160-22643.jpg"
+
+swaybg --output '*' --mode fill --image "$WALLPAPER"
